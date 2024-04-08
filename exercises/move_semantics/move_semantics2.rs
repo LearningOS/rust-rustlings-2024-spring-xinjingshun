@@ -7,12 +7,13 @@
 // Execute `rustlings hint move_semantics2` or use the `hint` watch subcommand
 // for a hint.
 
-// I AM NOT DONE
+//
 
+//预期输出：vec0 的长度为 3，内容为“[22， 44， 66]” vec1 的长度为 4，内容为 [22， 44， 66， 88]'
 fn main() {
-    let vec0 = Vec::new();
+    let mut vec0 = Vec::new();
 
-    let mut vec1 = fill_vec(vec0);
+    let mut vec1 = fill_vec(vec0.clone());
 
     println!("{} has length {}, with contents: `{:?}`", "vec0", vec0.len(), vec0);
 
