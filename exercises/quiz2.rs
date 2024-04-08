@@ -17,7 +17,22 @@
 // - The input is going to be a Vector of a 2-length tuple,
 //   the first element is the string, the second one is the command.
 // - The output element is going to be a Vector of strings.
-//
+/*
+这是以下几个部分的小测验：
+
+字符串（Strings）
+向量（Vecs）
+移动语义（Move semantics）
+模块（Modules）
+枚举（Enums）
+我们将构建一个小型机器，形式为一个函数。作为输入，我们将提供一个字符串和命令的列表。这些命令决定将对字符串应用什么操作。可能的操作包括：
+
+将字符串转换为大写
+修剪字符串
+将"bar"附加到字符串上指定的次数 具体形式将是：
+输入将是一个2元素元组的向量，第一个元素是字符串，第二个是命令。
+输出将是一个字符串的向量。
+ */
 // No hints this time!
 
 // I AM NOT DONE
@@ -32,20 +47,25 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(input: Vec<(&str,Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+        let mut output: Vec<String> = vec![];
         for (string, command) in input.iter() {
             // TODO: Complete the function body. You can do it!
+            let result = match command{
+                Command::Uppercase => string.to_uppercase(),
+                Command::Trim => string.trim().to_string(),
+                Command::Append(n) => format!("{}{}", string, "bar".repeat(*n)),
+            };
+            output.push(result);
         }
-        output
     }
 }
 
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
