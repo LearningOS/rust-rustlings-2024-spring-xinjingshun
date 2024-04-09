@@ -1,20 +1,14 @@
 // hashmaps3.rs
+// 给出了一场足球比赛的分数列表（每行一个分数）。每一行的格式为：“<team_1_name>,<team_2_name>,<team_1_goals>,<team_2_goals>”。例如：England,France,4,2（英格兰进了4个球，法国进了2个球）。
 //
-// A list of scores (one per line) of a soccer match is given. Each line is of
-// the form : "<team_1_name>,<team_2_name>,<team_1_goals>,<team_2_goals>"
-// Example: England,France,4,2 (England scored 4 goals, France 2).
-//
-// You have to build a scores table containing the name of the team, goals the
-// team scored, and goals the team conceded. One approach to build the scores
-// table is to use a Hashmap. The solution is partially written to use a
-// Hashmap, complete it to pass the test.
+// 你需要构建一个包含球队名称、球队进球数和球队失球数的得分表。构建得分表的一种方法是使用HashMap。已经部分写出了使用HashMap的解决方案，请完成它以通过测试。
 //
 // Make me pass the tests!
 //
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM  DONE
 
 use std::collections::HashMap;
 
@@ -28,17 +22,29 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
     // The name of the team is the key and its associated struct is the value.
     let mut scores: HashMap<String, Team> = HashMap::new();
 
-    for r in results.lines() {
-        let v: Vec<&str> = r.split(',').collect();
+    for r in results.lines() { //.lines()方法用于将字符串按行拆分成一个迭代器，每次迭代返回一个字符串表示的行
+        let v: Vec<&str> = r.split(',').collect(); //将字符串 r 按逗号 , 分割成多个子字符串，并将这些子字符串放入一个 Vec<&str> 向量中
         let team_1_name = v[0].to_string();
         let team_1_score: u8 = v[2].parse().unwrap();
         let team_2_name = v[1].to_string();
         let team_2_score: u8 = v[3].parse().unwrap();
-        // TODO: Populate the scores table with details extracted from the
-        // current line. Keep in mind that goals scored by team_1
-        // will be the number of goals conceded from team_2, and similarly
-        // goals scored by team_2 will be the number of goals conceded by
-        // team_1.
+        // TODO: 用从当前行提取的细节填充得分表。请记住，由team_1进球将是team_2失球的数量，同样地，由team_2进球将是team_1失球的数量。
+        if let Some(team) = scores.get_mut(&team_1_name) {
+            // Update the team's goals scored and goals conceded
+            team.goals_scored += team_1_score;
+            team.goals_conceded += team_2_score;
+        } else {
+            // Insert a new record for the team
+            scores.insert(team_1_name.clone(), Team { goals_scored: team_1_score, goals_conceded: team_2_score });
+        }
+
+        // Repeat the same process for team 2
+        if let Some(team) = scores.get_mut(&team_2_name) {
+            team.goals_scored += team_2_score;
+            team.goals_conceded += team_1_score;
+        } else {
+            scores.insert(team_2_name.clone(), Team { goals_scored: team_2_score, goals_conceded: team_1_score });
+        }
     }
     scores
 }

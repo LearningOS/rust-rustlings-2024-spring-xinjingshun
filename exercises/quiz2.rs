@@ -35,7 +35,7 @@
  */
 // No hints this time!
 
-// I AM NOT DONE
+// I AM  DONE
 
 pub enum Command {
     Uppercase,
@@ -59,6 +59,7 @@ mod my_module {
             };
             output.push(result);
         }
+        output
     }
 }
 

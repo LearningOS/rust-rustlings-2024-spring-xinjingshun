@@ -5,21 +5,24 @@
 // particular fruit is in the basket. You have to put at least three different
 // types of fruits (e.g apple, banana, mango) in the basket and the total count
 // of all the fruits should be at least five.
+// 需要定义一篮子hash map形式的水果。键表示水果的名称，值表示购物篮中有多少个特定水果。您必须在篮子中放入至少三种不同类型的水果（例如苹果、香蕉、芒果），并且所有水果的总数量应至少为五种。
 //
 // Make me compile and pass the tests!
 //
 // Execute `rustlings hint hashmaps1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM  DONE
 
 use std::collections::HashMap;
 
 fn fruit_basket() -> HashMap<String, u32> {
-    let mut basket = // TODO: declare your hash map here.
+    let mut basket = HashMap::new();
 
     // Two bananas are already given for you :)
     basket.insert(String::from("banana"), 2);
+    basket.insert(String::from("apple"), 4);
+    basket.insert(String::from("芒果"), 6);
 
     // TODO: Put more fruits in your basket here.
 
