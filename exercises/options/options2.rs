@@ -3,7 +3,7 @@
 // Execute `rustlings hint options2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM  DONE
 
 #[cfg(test)]
 mod tests {
@@ -13,7 +13,8 @@ mod tests {
         let optional_target = Some(target);
 
         // TODO: Make this an if let statement whose value is "Some" type
-        word = optional_target {
+        // word = optional_target { 定义变量错误。
+        if let Some(word) = optional_target {
             assert_eq!(word, target);
         }
     }
@@ -29,10 +30,9 @@ mod tests {
 
         let mut cursor = range;
 
-        // TODO: make this a while let statement - remember that vector.pop also
-        // adds another layer of Option<T>. You can stack `Option<T>`s into
-        // while let and if let.
-        integer = optional_integers.pop() {
+        // TODO: 将这个语句改为while let语句 - 记住，vector.pop 也会添加另一层 Option<T>。你可以将 Option<T> 嵌套在 while let 和 if let 中。
+        while let Some(integer) = optional_integers.pop().unwrap(){ // while let匹配成功时执行循环体，直到模式匹配失败。
+            println!("{}",integer);
             assert_eq!(integer, cursor);
             cursor -= 1;
         }
