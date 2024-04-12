@@ -1,35 +1,29 @@
 // errors5.rs
 //
-// This program uses an altered version of the code from errors4.
-//
-// This exercise uses some concepts that we won't get to until later in the
-// course, like `Box` and the `From` trait. It's not important to understand
-// them in detail right now, but you can read ahead if you like. For now, think
-// of the `Box<dyn ???>` type as an "I want anything that does ???" type, which,
-// given Rust's usual standards for runtime safety, should strike you as
-// somewhat lenient!
-//
-// In short, this particular use case for boxes is for when you want to own a
-// value and you care only that it is a type which implements a particular
-// trait. To do so, The Box is declared as of type Box<dyn Trait> where Trait is
-// the trait the compiler looks for on any value used in that context. For this
-// exercise, that context is the potential errors which can be returned in a
-// Result.
-//
-// What can we use to describe both errors? In other words, is there a trait
-// which both errors implement?
+/*
+这个练习用到了一些我们在课程后面才会讲到的概念，比如 Box 和 From 特征。现在不需要详细理解它们，但如果你感兴趣，可以提前阅读。目前，你可以将 Box<dyn ???> 类型视为“我想要任何实现了 ??? 的东西”的类型，这在 Rust 通常对运行时安全的标准下，应该让你感觉到相当宽松！
+
+简而言之，使用 box 的这种特定情况是当你想拥有一个值，并且只关心它是实现了特定特征的类型时。为此，Box 被声明为 Box<dyn Trait> 类型，其中 Trait 是编译器在该上下文中寻找的任何值上实现的特征。在这个练习中，该上下文是可以在 Result 中返回的潜在错误。
+
+我们能用什么来描述这两种错误？换句话说，有没有一个特征是这两种错误都实现了的？
+ */
 //
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM  DONE
 
 use std::error;
+use std::error::Error;
 use std::fmt;
+use std::fmt::Display;
 use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+/*
+main 函数中可能出现两种错误类型——ParseIntError（由字符串解析函数产生）和 CreationError（由 PositiveNonzeroInteger::new 产生），我们需要返回一个能够包含任何实现了 error::Error 的类型的错误。这可以通过使用 Box<dyn Error> 来实现，它是一个能够包含任何实现了 Error trait 的类型的动态类型箱（Box）。这样，无论是哪种错误类型，都可以被装箱并作为错误返回。
+ */
+fn main() -> Result<(), Box<dyn Error>> {
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);

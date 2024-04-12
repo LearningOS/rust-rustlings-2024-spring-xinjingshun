@@ -1,21 +1,19 @@
 // errors6.rs
 //
-// Using catch-all error types like `Box<dyn error::Error>` isn't recommended
-// for library code, where callers might want to make decisions based on the
-// error content, instead of printing it out or propagating it further. Here, we
-// define a custom error type to make it possible for callers to decide what to
-// do next when our function returns an error.
+/*
+使用像 Box<dyn error::Error> 这样的通用错误类型在库代码中通常不推荐，因为调用者可能需要根据错误的具体内容来做出决策，而不仅仅是打印出来或者进一步传播错误。在这里，我们定义一个自定义错误类型，使得当我们的函数返回错误时，调用者可以决定接下来要做什么。
+ */
 //
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM DONE
 
 use std::num::ParseIntError;
 
-// This is a custom error type that we will be using in `parse_pos_nonzero()`.
+// 这是一个自定义错误类型，用于 `parse_pos_nonzero()` 函数。
 #[derive(PartialEq, Debug)]
-enum ParsePosNonzeroError {
+enum ParsePosNonzeroError { //定义了在解析和验证输入时可能遇到的错误类型。其中包括字符串解析错误（ParseIntError）和创建 PositiveNonzeroInteger 的自定义错误（CreationError）。
     Creation(CreationError),
     ParseInt(ParseIntError),
 }
@@ -25,13 +23,17 @@ impl ParsePosNonzeroError {
         ParsePosNonzeroError::Creation(err)
     }
     // TODO: add another error conversion function here.
-    // fn from_parseint...
+    // 完成 TODO: 添加另一个错误转换函数,将 ParseIntError 转换为我们自定义的错误类型 ParsePosNonzeroError。
+    fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError {
+        ParsePosNonzeroError::ParseInt(err)
+    }
 }
 
-fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
+fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> { //在函数中具体处理上面定义的枚举类型错误
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
+    // let x: i64 = s.parse().unwrap(); 修改此行代码,map_err() 将 parse() 方法产生的 ParseIntError 转换为我们的自定义错误类型，确保不会在解析失败时panic!
+    let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parseint)?;
     PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
 }
 
