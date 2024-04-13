@@ -32,8 +32,9 @@ impl ParsePosNonzeroError {
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> { //在函数中具体处理上面定义的枚举类型错误
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    // let x: i64 = s.parse().unwrap(); 修改此行代码,map_err() 将 parse() 方法产生的 ParseIntError 转换为我们的自定义错误类型，确保不会在解析失败时panic!
+    // let x: i64 = s.parse().unwrap(); 修改此行代码,map_err()是 Rust 标准库中的 Result 类型的一个内置方法,它将 parse() 方法产生的 ParseIntError 转换为我们的自定义错误类型，确保不会在解析失败时panic!
     let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parseint)?;
+    // 如果解析成功，尝试创建 PositiveNonzeroInteger。如果创建失败（即值为零或负数），使用 map_err 转换错误
     PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
 }
 
@@ -42,6 +43,7 @@ fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroE
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
 
+//定义一个枚举类型表示创建 PositiveNonzeroInteger 时可能出现的错误
 #[derive(PartialEq, Debug)]
 enum CreationError {
     Negative,
