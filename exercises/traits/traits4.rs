@@ -7,7 +7,7 @@
 // Execute `rustlings hint traits4` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM DONE
 
 pub trait Licensed {
     fn licensing_info(&self) -> String {
@@ -23,9 +23,11 @@ impl Licensed for SomeSoftware {}
 impl Licensed for OtherSoftware {}
 
 // YOU MAY ONLY CHANGE THE NEXT LINE
-fn compare_license_types(software: ??, software_two: ??) -> bool {
+// fn compare_license_types(software: ??, software_two: ??) -> bool {
+// compare_license_types函数的参数类型不一致，因此不能在同一函数中直接使用两种不同的软件类型作为参数。函数compare_license_types的参数类型需要改为接受一个实现了Licensed trait的通用类型的参数，这样才能处理任何实现了该trait的类型。
+fn compare_license_types<T:Licensed, U:Licensed>(software: T,software_two: U) -> bool {
     software.licensing_info() == software_two.licensing_info()
-}
+    }
 
 #[cfg(test)]
 mod tests {
