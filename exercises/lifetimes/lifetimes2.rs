@@ -1,18 +1,17 @@
 // lifetimes2.rs
 //
-// So if the compiler is just validating the references passed to the annotated
-// parameters and the return type, what do we need to change?
+// 如果编译器只是验证传递给已标注参数和返回类型的引用，我们需要改变什么呢？
 //
 // Execute `rustlings hint lifetimes2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM DONE
 
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+fn longest<'a>(x: &'a str, y: &'a str) -> String {
     if x.len() > y.len() {
-        x
+        x.to_string()
     } else {
-        y
+        y.to_string()
     }
 }
 
