@@ -1,11 +1,13 @@
 // iterators5.rs
 //
-// 让我们定义一个简单的模型来跟踪 Rustlings 练习的进度。进度将使用哈希映射来建模。练习的名称是键，进度是值。已创建两个计数函数，用于计数具有给定进度的练习数量。使用迭代器重新创建这种计数功能。尽量不要使用命令式循环（for，while）。只需修改两个迭代器方法（count_iterator 和 count_collection_iterator）。
+// 让我们定义一个简单的模型来跟踪 Rustlings 练习的进度。进度将使用哈希映射来建模。练习的名称是键，进度是值。
+// 已创建两个计数函数，用于计数具有给定进度的练习数量。使用迭代器重新创建这种计数功能。
+// 尽量不要使用命令式循环（for，while）。只需修改两个迭代器方法（count_iterator 和 count_collection_iterator）。
 //
 // Execute `rustlings hint iterators5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM DONE
 
 use std::collections::HashMap;
 
@@ -27,9 +29,9 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 }
 
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
-    // map is a hashmap with String keys and Progress values.
-    // map = { "variables1": Complete, "from_str": None, ... }
-    todo!();
+    // 这个函数使用迭代器来计数具有给定进度的练习数量。
+    // 它使用了 `filter` 方法过滤出与给定值相等的元素，并使用 `count` 方法计数。
+    map.values().filter(|&v| v == &value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -45,10 +47,15 @@ fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progres
 }
 
 fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
-    // collection is a slice of hashmaps.
-    // collection = [{ "variables1": Complete, "from_str": None, ... },
-    //     { "variables2": Complete, ... }, ... ]
-    todo!();
+    // 使用迭代器来计算给定进度的练习在集合中出现的次数。
+    // 它通过调用 `count_iterator` 函数来计算每个哈希映射中特定进度的练习数量，并将它们加总起来。
+    collection
+        // 使用 `iter()` 方法将 `collection` 转换为迭代器。
+        .iter()
+        // 使用 `map()` 方法将每个哈希映射中特定进度的练习数量计算出来。
+        .map(|map| count_iterator(map, value))
+        // 使用 `map()` 方法将每个哈希映射中特定进度的练习数量计算出来。
+        .sum()
 }
 
 #[cfg(test)]
