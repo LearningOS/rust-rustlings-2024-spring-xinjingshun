@@ -1,8 +1,7 @@
 // from_into.rs
 //
-// The From trait is used for value-to-value conversions. If From is implemented
-// correctly for a type, the Into trait should work conversely. You can read
-// more about it at https://doc.rust-lang.org/std/convert/trait.From.html
+
+// From trait 用于值到值的转换。如果针对某个类型正确实现了 From，那么 Into trait 应该可以相反地工作。您可以在 https://doc.rust-lang.org/std/convert/trait.From.html 上了解更多信息。
 //
 // Execute `rustlings hint from_into` or use the `hint` watch subcommand for a
 // hint.
@@ -13,8 +12,8 @@ struct Person {
     age: usize,
 }
 
-// We implement the Default trait to use it as a fallback
-// when the provided string is not convertible into a Person object
+
+// 我们实现了 Default trait 以便在提供的字符串无法转换为 Person 对象时使用它作为默认值。
 impl Default for Person {
     fn default() -> Person {
         Person {
@@ -24,28 +23,41 @@ impl Default for Person {
     }
 }
 
-// Your task is to complete this implementation in order for the line `let p =
-// Person::from("Mark,20")` to compile Please note that you'll need to parse the
-// age component into a `usize` with something like `"4".parse::<usize>()`. The
-// outcome of this needs to be handled appropriately.
+// 您的任务是完成此实现，以便使 let p = Person::from("Mark,20") 这行代码能够编译。请注意，您需要使用类似 "4".parse::<usize>() 的方法将年龄部分解析为 usize。需要适当处理这个操作的结果。
 //
-// Steps:
-// 1. If the length of the provided string is 0, then return the default of
-//    Person.
-// 2. Split the given string on the commas present in it.
-// 3. Extract the first element from the split operation and use it as the name.
-// 4. If the name is empty, then return the default of Person.
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age.
-// If while parsing the age, something goes wrong, then return the default of
-// Person Otherwise, then return an instantiated Person object with the results
+// 步骤：
+// 1. 如果提供的字符串长度为 0，则返回 Person 的默认值。
+// 2. 在字符串中出现的逗号上分割给定的字符串。
+// 3. 从分割操作中提取第一个元素，并将其用作名称。
+// 4. 如果名称为空，则返回 Person 的默认值。
+// 5. 从分割操作中提取另一个元素，并将其解析为 usize 类型作为年龄。
+// 如果在解析年龄时出现问题，则返回 Person 的默认值。否则，返回一个使用结果实例化的 Person 对象。
 
-// I AM NOT DONE
+// I AM DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.is_empty() {
+            return Person::default();
+        }
+
+        if let Some((person_name, person_age)) = s.split_once(',') {
+            if person_name.is_empty() {
+                return Person::default();
+            }
+
+            if let Ok(age) = person_age.trim().parse::<usize>() {
+                return Person {
+                    name: person_name.to_string(),
+                    age,
+                };
+            }
+        }
+
+        Person::default()
     }
 }
+
 
 fn main() {
     // Use the `from` function

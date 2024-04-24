@@ -1,31 +1,32 @@
 // as_ref_mut.rs
 //
-// AsRef and AsMut allow for cheap reference-to-reference conversions. Read more
-// about them at https://doc.rust-lang.org/std/convert/trait.AsRef.html and
+// AsRef 和 AsMut 允许进行廉价的引用到引用的转换。分别在以下链接阅读更多关于它们的信息:
+// https://doc.rust-lang.org/std/convert/trait.AsRef.html and
 // https://doc.rust-lang.org/std/convert/trait.AsMut.html, respectively.
 //
 // Execute `rustlings hint as_ref_mut` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// I AM DONE
+use std::convert::{AsRef, AsMut};
 
-// Obtain the number of bytes (not characters) in the given argument.
-// TODO: Add the AsRef trait appropriately as a trait bound.
-fn byte_counter<T>(arg: T) -> usize {
+// 获取给定参数的字节数（而不是字符数）。
+// TODO: 适当添加 AsRef trait 作为 trait bound。
+fn byte_counter<T: AsRef<str>>(arg: T) -> usize {
     arg.as_ref().as_bytes().len()
 }
 
-// Obtain the number of characters (not bytes) in the given argument.
-// TODO: Add the AsRef trait appropriately as a trait bound.
-fn char_counter<T>(arg: T) -> usize {
+// 获取给定参数的字符数（而不是字节数）。
+// TODO: 适当添加 AsRef trait 作为 trait bound。
+fn char_counter<T: AsRef<str>>(arg: T) -> usize {
     arg.as_ref().chars().count()
 }
 
-// Squares a number using as_mut().
-// TODO: Add the appropriate trait bound.
-fn num_sq<T>(arg: &mut T) {
-    // TODO: Implement the function body.
-    ???
+// 使用 as_mut() 计算一个数字的平方。
+// TODO: 添加适当的 trait bound。
+fn num_sq<T: AsMut<u32>>(arg: &mut T) {
+    // TODO: 实现函数体。
+    *arg.as_mut() *= *arg.as_mut();
 }
 
 #[cfg(test)]
