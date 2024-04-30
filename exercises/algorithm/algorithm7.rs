@@ -3,7 +3,9 @@
 	This question requires you to use a stack to achieve a bracket match
 */
 
-// I AM NOT DONE
+// I AM DONE
+// 阶梯思路：使用栈实现括号匹配的函数 bracket_match。遍历输入字符串中的每个字符，当遇到左括号时，将其压入栈中；当遇到右括号时，与栈顶的左括号进行匹配，如果匹配成功弹出栈顶的左括号，继续遍历；如果匹配失败或者栈为空，则返回 false。
+
 #[derive(Debug)]
 struct Stack<T> {
 	size: usize,
@@ -31,9 +33,14 @@ impl<T> Stack<T> {
 		self.size += 1;
 	}
 	fn pop(&mut self) -> Option<T> {
-		// TODO
-		None
+		if self.size > 0 {
+			self.size -= 1; // 减少栈的大小
+			self.data.pop() // 弹出栈顶元素并返回
+		} else {
+			None // 如果栈为空，返回 None
+		}
 	}
+
 	fn peek(&self) -> Option<&T> {
 		if 0 == self.size {
 			return None;
@@ -99,11 +106,50 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 	}
 }
 
-fn bracket_match(bracket: &str) -> bool
-{
-	//TODO
-	true
+fn bracket_match(bracket: &str) -> bool {
+	let mut stack = Stack::new(); // 创建一个栈用于存储左括号
+
+	// 遍历输入字符串中的每个字符
+	for c in bracket.chars() {
+		match c {
+			'(' | '[' | '{' => {
+				stack.push(c); // 遇到左括号，压入栈中
+			}
+			')' => {
+				// 遇到右括号')'，尝试匹配栈顶的左括号'('
+				if let Some('(') = stack.pop() {
+					continue; // 匹配成功，继续遍历
+				} else {
+					return false; // 匹配失败，返回 false
+				}
+			}
+			']' => {
+				// 遇到右括号']'，尝试匹配栈顶的左括号'['
+				if let Some('[') = stack.pop() {
+					continue; // 匹配成功，继续遍历
+				} else {
+					return false; // 匹配失败，返回 false
+				}
+			}
+			'}' => {
+				// 遇到右括号'}'，尝试匹配栈顶的左括号'{'
+				if let Some('{') = stack.pop() {
+					continue; // 匹配成功，继续遍历
+				} else {
+					return false; // 匹配失败，返回 false
+				}
+			}
+			_ => {
+				// 忽略其他字符，继续遍历
+				continue;
+			}
+		}
+	}
+
+	// 遍历结束后，如果栈为空，则括号匹配成功，否则匹配失败
+	stack.is_empty()
 }
+
 
 #[cfg(test)]
 mod tests {

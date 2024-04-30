@@ -2,11 +2,11 @@
 	double linked list reverse
 	This problem requires you to reverse a doubly linked list
 */
-// I AM NOT DONE
+// I AM DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
-use std::vec::*;
+// use std::vec::*;
 
 #[derive(Debug)]
 struct Node<T> {
@@ -72,12 +72,25 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn reverse(&mut self){
-		// TODO
-	}
+    pub fn reverse(&mut self) {
+        let mut current = self.start; // 从链表的起始节点开始反转
+        while let Some(mut node_ptr) = current {
+            unsafe {
+                let mut node_ref = node_ptr.as_mut(); // 获取当前节点的可变引用
+                // 交换当前节点的 prev 和 next 指针
+                let temp = node_ref.prev;
+                node_ref.prev = node_ref.next;
+                node_ref.next = temp;
+            }
+            // 移动到下一个节点
+            current = unsafe { current.unwrap().as_ref().prev };
+        }
+        // 更新链表的起始节点和结束节点
+        std::mem::swap(&mut self.start, &mut self.end);
+    }
 }
 
-impl<T> Display for LinkedList<T>
+    impl<T> Display for LinkedList<T>
 where
     T: Display,
 {

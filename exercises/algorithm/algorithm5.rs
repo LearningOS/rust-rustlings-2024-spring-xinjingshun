@@ -3,38 +3,56 @@
 	This problem requires you to implement a basic BFS algorithm
 */
 
-//I AM NOT DONE
+//I AM DONE
+// 广度优先的搜索算法，使用一个队列辅助完成搜索
 use std::collections::VecDeque;
 
-// Define a graph
+// 定义图
 struct Graph {
-    adj: Vec<Vec<usize>>, 
+    adj: Vec<Vec<usize>>, // 邻接表表示图的连接关系
 }
 
 impl Graph {
-    // Create a new graph with n vertices
+    // 创建一个具有n个顶点的新图
     fn new(n: usize) -> Self {
         Graph {
-            adj: vec![vec![]; n],
+            adj: vec![vec![]; n], // 初始化邻接表
         }
     }
 
-    // Add an edge to the graph
+    // 向图中添加一条边
     fn add_edge(&mut self, src: usize, dest: usize) {
-        self.adj[src].push(dest); 
-        self.adj[dest].push(src); 
+        self.adj[src].push(dest); // 无向图，两个方向都要添加
+        self.adj[dest].push(src);
     }
 
-    // Perform a breadth-first search on the graph, return the order of visited nodes
+    // 在图上执行广度优先搜索，并返回访问顺序
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
-        
-		//TODO
+        let mut visited = vec![false; self.adj.len()]; // 标记顶点是否已访问
+        let mut visit_order = vec![]; // 记录访问顺序
+        let mut queue = VecDeque::new(); // 辅助队列
 
-        let mut visit_order = vec![];
-        visit_order
+        // 将起始顶点加入队列并标记为已访问
+        queue.push_back(start);
+        visited[start] = true;
+
+        // 开始广度优先搜索
+        while let Some(node) = queue.pop_front() {
+            visit_order.push(node); // 将当前节点加入访问顺序
+
+            // 遍历当前节点的邻居
+            for &neighbor in &self.adj[node] {
+                if !visited[neighbor] {
+                    // 如果邻居节点尚未访问，则加入队列并标记为已访问
+                    queue.push_back(neighbor);
+                    visited[neighbor] = true;
+                }
+            }
+        }
+
+        visit_order // 返回访问顺序
     }
 }
-
 
 #[cfg(test)]
 mod tests {
